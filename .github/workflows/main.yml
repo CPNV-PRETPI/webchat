@@ -1,0 +1,7 @@
+on
+  # - name: GitHub Action for Firebase
+  # You may pin to the exact commit or the version.
+  # uses: w9jds/firebase-action@85564c3460ecf6caa7e3b09f1c318811b3d0f0b7
+  uses: w9jds/firebase-action@v13.1.0
+
+           
