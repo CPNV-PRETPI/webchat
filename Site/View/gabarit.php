@@ -38,12 +38,7 @@
 <body style="padding-top: 100px">
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-expand navbar-light bg-light justify-content-between">
-    <a class="navbar-brand" href="index.php?action=home&filter=2"><img src="view\content\logo\What The Fox.png" style="width:50px"></a>
-    <?php if (!isset($_SESSION['userEmailAddress']) || (!isset($_GET['action'])) || (@$_GET['action'] == "logout")) : ?>
-        <a class="navbar-brand" onclick="alert('Il faut être login pour poster des observation')">POST</a>
-    <?php else : ?>
-        <a class="navbar-brand" href="index.php?action=post">POST</a>
-    <?php endif; ?>
+    <a class="navbar-brand" href="index.php?action=home"><img src="view\content\logo\What The Fox.png" style="width:50px"></a>
     <form class="form-inline">
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
@@ -60,7 +55,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="index.php?action=register">register</a>
                         <?php else : ?>
-                            <a class="dropdown-item" href="index.php?action=home&filter=2">Home</a>
+                            <a class="dropdown-item" href="index.php?action=home">Home</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="index.php?action=logout">logout</a>
                         <?php endif; ?>
