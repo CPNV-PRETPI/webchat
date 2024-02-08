@@ -17,7 +17,6 @@ if (!isset($_SESSION['userEmailAddress']) || (!isset($_GET['action'])) || (@$_GE
 
     <div>home</div>
 
-
 <?php
 $content = ob_get_clean();
 require "gabarit.php";

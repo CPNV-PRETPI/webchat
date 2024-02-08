@@ -38,7 +38,7 @@
 <body style="padding-top: 100px">
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-expand navbar-light bg-light justify-content-between">
-    <a class="navbar-brand" href="index.php?action=home"><img src="view\content\logo\What The Fox.png" style="width:50px"></a>
+    <a class="navbar-brand" href="index.php?action=home"><img src="view\content\logo\Webchat.png" style="width:50px"></a>
     <form class="form-inline">
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
@@ -47,18 +47,12 @@
                        aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-bars"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <?php if (!isset($_SESSION['userEmailAddress']) || (!isset($_GET['action'])) || ((@$_GET['action'] == "logout"))) : ?>
-                            <a class="dropdown-item" href="index.php?action=home&filter=2">Home</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="index.php?action=login">login</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="index.php?action=register">register</a>
-                        <?php else : ?>
-                            <a class="dropdown-item" href="index.php?action=home">Home</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="index.php?action=logout">logout</a>
-                        <?php endif; ?>
+                    <div class="dropdown-menu" id="menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="index.php?action=home">Home</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="loginOrRegister" href="index.php?action=loginOrRegister">Login or Register</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="logout" href="index.php?action=loginOrRegister">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -71,11 +65,9 @@
 <div>
     <!-- Page footer -->
     <footer class="row tm-page-footer">
-        <?php if (isset($_SESSION['userEmailAddress'])) :?>
-        <p class="col-12 tm-copyright-text mb-0">
-            Account: <?= $_SESSION['userEmailAddress'] ?>
+        <p id="userAccount" class="col-12 tm-copyright-text mb-0">
+            Account: <span id="displayName"></span>
         </p>
-        <?php endif ?>
     </footer>
 </div>
 <script src="view/content/js/jquery.min.js"></script>

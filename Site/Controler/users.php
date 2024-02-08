@@ -4,18 +4,9 @@
  * @brief     This controller is designed to manage all users actions
  * @author    Created by Pascal.BENZONANA
  * @author    Updated by Nicolas.GLASSEY
- * @version   13-APR-2020
+ * @author    Updated by Joshua.SURICO
+ * @version   06-02-2024
  */
-
-
-/**
- * @brief This function is designed to create a new user session
- * @param $userLogin : user unique id, must be meet RFC 5321/5322
- */
-function createSession($userLogin)
-{
-    $_SESSION['userEmailAddress'] = $userLogin;
-}
 
 /**
  * @brief This function is designed to manage login request
@@ -87,7 +78,6 @@ function register($registerRequest)
             $userPswRepeat = $registerRequest['inputUserPswRepeat'];
 
             if ($userPsw == $userPswRepeat) {
-                require_once "model/usersManager.php";
                 if (registerNewAccount($username, $userEmailAddress, $userPsw)) {
                     createSession($userEmailAddress);
                     $registerErrorMessage = null;
@@ -111,17 +101,9 @@ function register($registerRequest)
 }
 
 
-function SendEmail($EmailRequest, $email)
+function sendAmsg($MsgRequest)
 {
-    $recipient = $email;
-    $subject = "Form to email message";
-    $sender = $EmailRequest["sender"];
-    $senderEmail = $EmailRequest["senderEmail"];
-    $message = $EmailRequest["message"];
+    $author = $MsgRequest["author"];
+    $message = $MsgRequest["message"];
 
-    $mailBody = "Name: $sender\nEmail: $senderEmail\n\n$message";
-
-    mail($recipient, $subject, $mailBody, "From: $sender <$senderEmail>");
-
-    $thankYou = "<p>Thank you! Your message has been sent.</p>";
 }
