@@ -22,6 +22,19 @@
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
+    // Register a listener for authentication state changes
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            // User is signed in
+            console.log("User is signed in:", user);
+        } else {
+            // User is signed out
+            console.log("User is signed out");
+        }
+        updateUserAccount(user); // Update the user account info
+        updateMenu(user);// Update the Menu Items
+    });
+
     // Define a function to update the user account information
     function updateUserAccount(user) {
         if (user != null) {
@@ -45,19 +58,6 @@
         }
     }
 
-    // Register a listener for authentication state changes
-    auth.onAuthStateChanged(function(user) {
-        if (user) {
-            // User is signed in
-            console.log("User is signed in:", user);
-        } else {
-            // User is signed out
-            console.log("User is signed out");
-        }
-        updateUserAccount(user); // Update the user account info
-        updateMenu(user);// Update the Menu Items
-    });
-
     if(document.title=="login or register"){
         document.getElementById("google-login").addEventListener("click", function() {
             signInWithPopup(auth, provider)
@@ -72,15 +72,15 @@
                 // ...
             })
             .catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode + ":" + errorMessage);
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode + ":" + errorMessage);
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
             });
         });
         
