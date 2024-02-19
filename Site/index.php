@@ -11,6 +11,7 @@ require "Controler/navigation.php";
 require "Controler/users.php";
 require "Model/FirebaseAPI.php";
 
+
 // Check if email parameter is set in the URL
 if (isset($_GET['email'])) {
     // Retrieve email from URL
@@ -27,7 +28,6 @@ if (isset($_GET['name'])) {
 }
 
 if (isset($_GET['action']) && isset($_SESSION['user_email'])) {
-    echo $_SESSION['user_email'];
     $action = $_GET['action'];
     switch ($action) {
         case 'home' :
@@ -46,6 +46,5 @@ if (isset($_GET['action']) && isset($_SESSION['user_email'])) {
             lost();
     }
 } else {
-    echo $_SESSION['user_email'];
     loginOrRegister();
 }

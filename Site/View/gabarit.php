@@ -34,6 +34,14 @@
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-expand navbar-light bg-light justify-content-between">
     <a class="navbar-brand" href="index.php?action=home"><img src="view\content\logo\Webchat.png" style="width:50px"></a>
+    <div>
+        <?php 
+            if(isset($_SESSION['status'])){
+                echo $_SESSION['status'];
+                unset($_SESSION['status']);
+            }
+        ?>
+    </div>
     <form class="form-inline">
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">

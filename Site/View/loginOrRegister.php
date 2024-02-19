@@ -6,12 +6,13 @@
  * @version   06-02-2024
  */
 
+session_start();
 ob_start();
 $title = "login or register"
 ?>
 <link rel="stylesheet" href="View/content/css/loginOrRegister.css"/>
 
-<form action="Controler/Firebase.php" method="POST">
+<form action="Model/FirebaseAPI.php" method="POST">
   <div class="container Register">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
@@ -29,7 +30,7 @@ $title = "login or register"
     <hr>
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
 
-    <button type="submit" class="registerbtn" id="register_btn">Register</button>
+    <button name="register_btn" type="submit" class="registerbtn" id="register_btn">Register</button>
   </div>
 </form>
 <div class="container signin">
