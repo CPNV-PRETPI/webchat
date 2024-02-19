@@ -103,7 +103,7 @@ function register($registerRequest)
 
 function sendAmsg($MsgRequest)
 {
+    
     $author = $MsgRequest["author"];
     $message = $MsgRequest["message"];
-
 }

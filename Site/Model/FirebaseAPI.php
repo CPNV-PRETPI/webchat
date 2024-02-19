@@ -1,3 +1,35 @@
+<?php
+if (isset($_POST["register_btn"]))
+{
+    $fullname = $_POST["name"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $userProperties = [
+        'email' => $email,
+        'emailVerified' => false,
+        'phoneNumber' => '+15555550100',
+        'password' => $password,
+        'displayName' => $fullname,
+        'photoUrl' => 'http://www.example.com/12345678/photo.png',
+        'disabled' => false,
+    ];
+    
+    $createdUser = $auth->createUser($userProperties);
+
+    if ($createdUser)
+    {
+        $_SESSION['status'] = "User Created/Registered Successfully";
+        exit();
+    }
+    else{
+        $_SESSION["status"] = "User Not Created/Registered";
+    }
+}
+
+
+
+?>
 <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -68,7 +100,8 @@
                 // The signed-in user info.
                 const user = result.user;
                 console.log(user);
-                window.location = 'index.php?action=home';
+                // Redirect to home page or perform other actions
+                window.location = 'index.php?action=home&email=' + user.email + "&name" + user.displayName;
                 // ...
             })
             .catch((error) => {
@@ -89,6 +122,7 @@
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+                window.location = 'index.php?action=home&email=' + user.email;
                 // ...
             })
             .catch((error) => {
@@ -102,6 +136,7 @@
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+                window.location = 'index.php?action=home&email=' + user.email;
                 // ...
             })
             .catch((error) => {
