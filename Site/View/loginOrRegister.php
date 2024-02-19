@@ -9,26 +9,27 @@
 ob_start();
 $title = "login or register"
 ?>
-<link rel="stylesheet" href="view/content/css/loginOrRegister.css"/>
+<link rel="stylesheet" href="View/content/css/loginOrRegister.css"/>
 
-<form>
+<form action="Controler/Firebase.php" method="POST">
   <div class="container Register">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
 
+    <label for="register-email"><b>Full name</b></label>
+    <input type="text" placeholder="Enter full name" name="register-name" id="register-name" required>
+
     <label for="register-email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="register-email" required>
+    <input type="text" placeholder="Enter Email" name="register-email" id="register-email" required>
 
     <label for="register-psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="register-psw" required>
+    <input type="password" placeholder="Enter Password" name="register-psw" id="register-psw" required>
 
-    <label for="register-psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="register-psw-repeat" required>
     <hr>
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
 
-    <button type="button" class="registerbtn" id="register">Register</button>
+    <button type="submit" class="registerbtn" id="register_btn">Register</button>
   </div>
 </form>
 <div class="container signin">
@@ -43,10 +44,10 @@ $title = "login or register"
   <form class="modal-content animate">
     <div class="container">
       <label for="login-email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" id="login-email" required>
+      <input type="text" placeholder="Enter Email" name="login-email" id="login-email" required>
 
       <label for="login-psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" id="login-psw" required>
+      <input type="password" placeholder="Enter Password" name="login-psw" id="login-psw" required>
         
       <button type="button" id="login">Login</button>
     </div>
