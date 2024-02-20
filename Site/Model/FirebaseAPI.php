@@ -1,37 +1,16 @@
 <?php
-if (isset($_POST["register_btn"]))
-{
-    echo $_POST["register_btn"];
 
-    $fullname = $_POST["register-name"];
-    $email = $_POST["register-email"];
-    $password = $_POST["register-password"];
+require "vendor/autoload.php";
 
-    $userProperties = [
-        'email' => $email,
-        'emailVerified' => false,
-        'password' => $password,
-        'displayName' => $fullname,
-        'photoUrl' => 'https://picsum.photos/id/10/200/300',
-        'disabled' => false,
-    ];
-    
-    $createdUser = $auth->createUser($userProperties);
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Auth;
 
-    if ($createdUser)
-    {
-        $_SESSION['status'] = "User Created/Registered Successfully";
-        exit();
-    }
-    else{
-        $_SESSION["status"] = "User Not Created/Registered";
-        exit();
-    }
-}
+$factory = (new Factory)
+->withServiceAccount(__DIR__."\\firebase-adminsdk-key\\webchat-f8f06-firebase-adminsdk-3s6ni-636d92c95a.json")
+->withDatabaseUri('https://webchat-f8f06-default-rtdb.europe-west1.firebasedatabase.app/');
 
-if (isset($_POST["login_btn"]))
-{
-    $email = $_POST["login-email"];
-    $password = $_POST["login-password"];
-}
+$database = $factory->createDatabase();
+$auth = $factory->createAuth();
+
+
 

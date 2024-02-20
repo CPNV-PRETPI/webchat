@@ -12,7 +12,7 @@ $title = "login or register"
 ?>
 <link rel="stylesheet" href="View/content/css/loginOrRegister.css"/>
 
-<form action="Model/FirebaseAPI.php" method="POST">
+<form action="Controler/users.php" method="POST">
   <div class="container Register">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
@@ -28,7 +28,9 @@ $title = "login or register"
     <input type="password" placeholder="Enter Password" name="register-password" id="register-password" required>
 
     <hr>
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+    <p>
+      By creating an account you agree to our <a href="#">Terms & Privacy</a>.
+    </p>
 
     <button name="register_btn" type="submit" class="registerbtn" id="register_btn">Register</button>
   </div>
@@ -38,11 +40,11 @@ $title = "login or register"
       <h1>Already have an account?</h1>
       <button type="button" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login with Email</button>
       <button type="button" id="google-login" name="google-login" style="width:auto;"><i class="fa fa-google "></i> Login with Google</button>
-  </p>
+    </p>
 </div>
 
 <div id="id01" class="modal">
-  <form class="modal-content animate">
+  <form action="Controler/users.php" class="modal-content animate" method="POST">
     <div class="container">
       <label for="login-email"><b>Email</b></label>
       <input type="text" placeholder="Enter Email" name="login-email" id="login-email" required>
