@@ -50,7 +50,7 @@ $title = "login or register"
       <label for="login-password"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="login-password" id="login-password" required>
         
-      <button type="button" id="login">Login</button>
+      <button name="login_btn" type="button" id="login_btn">Login</button>
     </div>
 
     <div class="container" style="background-color:#f1f1f1">

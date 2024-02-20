@@ -15,8 +15,15 @@ if (!isset($_SESSION['userEmailAddress']) || (!isset($_GET['action'])) || (@$_GE
     <a class="navbar-brand" href="index.php?action=post">POST</a>
 <?php endif; ?>
 
-    <div>home</div>
-
+    <div>home
+        <div class="container">
+            <h1>Group Name</h1>
+            <ul class="message-list">
+                <?php include 'messages.php'; ?>
+            </ul>
+        </div>
+        <input type="text" placeholder="Enter message" name="message" id="message" required>
+    </div>
 <?php
 $content = ob_get_clean();
 require "gabarit.php";

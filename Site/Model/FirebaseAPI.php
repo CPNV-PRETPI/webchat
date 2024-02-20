@@ -29,4 +29,9 @@ if (isset($_POST["register_btn"]))
     }
 }
 
+if (isset($_POST["login_btn"]))
+{
+    $email = $_POST["login-email"];
+    $password = $_POST["login-password"];
+}
 
