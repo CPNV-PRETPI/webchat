@@ -24,8 +24,8 @@ $title = "login or register"
     <label for="register-email"><b>Email</b></label>
     <input type="text" placeholder="Enter Email" name="register-email" id="register-email" required>
 
-    <label for="register-psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="register-psw" id="register-psw" required>
+    <label for="register-password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="register-password" id="register-password" required>
 
     <hr>
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
@@ -47,8 +47,8 @@ $title = "login or register"
       <label for="login-email"><b>Email</b></label>
       <input type="text" placeholder="Enter Email" name="login-email" id="login-email" required>
 
-      <label for="login-psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="login-psw" id="login-psw" required>
+      <label for="login-password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="login-password" id="login-password" required>
         
       <button type="button" id="login">Login</button>
     </div>

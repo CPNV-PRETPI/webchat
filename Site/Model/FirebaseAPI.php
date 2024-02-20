@@ -1,13 +1,11 @@
 <?php
-require "config/dbcon.php";
-
 if (isset($_POST["register_btn"]))
 {
     echo $_POST["register_btn"];
 
-    $fullname = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+    $fullname = $_POST["register-name"];
+    $email = $_POST["register-email"];
+    $password = $_POST["register-password"];
 
     $userProperties = [
         'email' => $email,

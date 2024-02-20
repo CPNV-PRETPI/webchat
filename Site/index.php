@@ -10,7 +10,7 @@
 require "Controler/navigation.php";
 require "Controler/users.php";
 require "Model/FirebaseAPI.php";
-
+require "config/dbcon.php";
 
 // Check if email parameter is set in the URL
 if (isset($_GET['email'])) {
