@@ -12,7 +12,7 @@ $title = "login or register"
 ?>
 <link rel="stylesheet" href="View/content/css/loginOrRegister.css"/>
 
-<form action="Controler/users.php" method="POST">
+<form>
   <div class="container Register">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
@@ -44,7 +44,7 @@ $title = "login or register"
 </div>
 
 <div id="id01" class="modal">
-  <form action="Controler/users.php" class="modal-content animate" method="POST">
+  <form class="modal-content animate">
     <div class="container">
       <label for="login-email"><b>Email</b></label>
       <input type="text" placeholder="Enter Email" name="login-email" id="login-email" required>
