@@ -8,7 +8,6 @@
  * @version   06-02-2024
  */
 require "Controler/navigation.php";
-require "Model/FirebaseApi.php";
 
 // Check if email parameter is set in the URL
 /*if (isset($_GET['email'])) {
@@ -25,9 +24,7 @@ if (isset($_GET['name'])) {
     $_SESSION['user_name'] = $name;
 }*/
 
-//session_start();
-
-if (isset($_GET['action'])/* && isset($_SESSION['user_email'])*/) {
+if (isset($_GET['action'])) {
     $action = $_GET['action'];
     switch ($action) {
         case 'home' :
@@ -35,9 +32,6 @@ if (isset($_GET['action'])/* && isset($_SESSION['user_email'])*/) {
             break;
         case 'loginOrRegister' :
             loginOrRegister();
-            break;
-        case 'post' :
-            sendAmsg($_POST);
             break;
         default :
             lost();

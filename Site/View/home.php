@@ -8,22 +8,36 @@
 
 ob_start();
 $title = "Accueil";
+?>
+<link rel="stylesheet" href="View/content/css/home.css"/>
 
-if (!isset($_SESSION['userEmailAddress']) || (!isset($_GET['action'])) || (@$_GET['action'] == "logout")) : ?>
-    <a class="navbar-brand" onclick="alert('Il faut être login pour poster des observation')">POST</a>
-<?php else : ?>
-    <a class="navbar-brand" href="index.php?action=post">POST</a>
-<?php endif; ?>
-
-    <div>home
-        <div class="container">
-            <h1>Group Name</h1>
-            <ul class="message-list">
-                <?php include 'messages.php'; ?>
+<div>
+    <div class="container" id="groups">
+        <ul class="groupsList">
+            <li>group name</li>
+            <li>group name</li>
+            <li>group name</li>
+            <li>group name</li>
+        </ul>
+    </div>
+    <div class="container" id="discussion">
+        <div id="messages">
+            <h1 id="groupName"></h1>
+            <ul class="messagesList">
+                <li>msg</li>
+                <li>msg</li>
+                <li>msg</li>
+                <li>msg</li>
             </ul>
         </div>
-        <input type="text" placeholder="Enter message" name="message" id="message" required>
+        <div id="">
+            <input type="text" placeholder="Enter message" name="message" id="message">
+            <a id="sendMsg" name="sendMsg">send</a>
+            <a id="addPhoto" name="addPhoto"><i class="fa-solid fa-plus"></i></a>
+        </div>
     </div>
+</div>
+
 <?php
 $content = ob_get_clean();
 require "gabarit.php";

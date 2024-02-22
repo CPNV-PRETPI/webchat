@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="view/content/css/all.min.css"/>
     <link rel="stylesheet" href="view/content/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="view/content/css/templatemo-style.css"/>
-    <script src="https://kit.fontawesome.com/07a6ec1a6f.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/aa26e7c2ab.js" crossorigin="anonymous"></script>
+    <script type="module" src="Model/FirebaseAPI.js"></script>
 
     <style>
         .dropdown-toggle::after {
@@ -33,14 +34,6 @@
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-expand navbar-light bg-light justify-content-between">
     <a class="navbar-brand" href="index.php?action=home"><img src="View\content\img\logo\logo.png" style="width:50px"></a>
-    <div>
-        <?php 
-            /*if(isset($_SESSION['status'])){
-                echo $_SESSION['status'];
-                unset($_SESSION['status']);
-            }*/
-        ?>
-    </div>
     <form class="form-inline">
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">

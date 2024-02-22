@@ -1,0 +1,7 @@
+.container{
+    display: flexbox;
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    margin: 10px;
+}

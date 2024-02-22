@@ -9,9 +9,9 @@
  */
 
 $title = 'Lost';
-
 ob_start();
-?>   <!-- Title Page -->
+?>   
+    <!-- Title Page -->
     <section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(view/content/images/home_slide_11.jpg);">
         <h2 class="l-text2 t-center">
             Erreur
@@ -26,7 +26,7 @@ ob_start();
                     Oupsss... on vous a perdu en chemin ;(.
                 </h3>
             </div>
-
+        </div>
     </section>
 <?php
 $content = ob_get_clean();
