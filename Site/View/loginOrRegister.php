@@ -5,8 +5,6 @@
  * @author    Created by Joshua.SURICO
  * @version   06-02-2024
  */
-
-session_start();
 ob_start();
 $title = "login or register"
 ?>
@@ -18,7 +16,7 @@ $title = "login or register"
     <p>Please fill in this form to create an account.</p>
     <hr>
 
-    <label for="register-email"><b>Full name</b></label>
+    <label for="register-name"><b>Full name</b></label>
     <input type="text" placeholder="Enter full name" name="register-name" id="register-name" required>
 
     <label for="register-email"><b>Email</b></label>
@@ -39,7 +37,7 @@ $title = "login or register"
     <p>
       <h1>Already have an account?</h1>
       <button type="button" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login with Email</button>
-      <button type="button" id="google-login" name="google-login" style="width:auto;"><i class="fa fa-google "></i> Login with Google</button>
+      <button type="button" id="google_login_btn" name="google_login_btn" style="width:auto;"><i class="fa fa-google "></i> Login with Google</button>
     </p>
 </div>
 
