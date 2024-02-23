@@ -2,8 +2,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, signInWithPopup} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js'
-import { } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
-import { getDatabase, set, ref, child } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js'
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc, serverTimestamp, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+//import { getDatabase, set, ref, child } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js'
 import { } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,39 +23,72 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const db = getDatabase();
+//const database = getDatabase();
+const db = getFirestore(app);// Reference to the Firestore database
+const groupsRef = collection(db, "Groups");// Reference to the Firestore database collection "Groups"
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-logged = null;
+var currentUser;
+var logged;
+var currentGroupID;
 
-if(document.title == ("home")){
+//check Auth state and change "logged" value
+auth.onAuthStateChanged(function(user) {
+    if (user) {
+        logged = true;
+        currentUser = user;
+        console.log("user logged in", user);
+    } else {
+        logged = false;
+        currentUser = "";
+        console.log("user logged out");
+    }
 
-}
+    //Check if it's the "home" page and redirect if not connected
+    if(document.title == ("home")){
+        if(!logged){
+            window.location = 'index.php?action=loginOrRegister';
+        }
+    }
+});
 
+/**
+ * Check if it's the "login or register" page and add Listeners
+ */
 if(document.title == ("login or register")){
 
-    document.getElementById("register_btn").addEventListener("click", Register)
+    document.getElementById("register_btn").addEventListener("click", Register);
 
-    document.getElementById("login_btn").addEventListener("click", Login)
+    document.getElementById("login_btn").addEventListener("click", Login);
 
-    document.getElementById("google_login_btn").addEventListener("click", GoogleLogin)
+    document.getElementById("google_login_btn").addEventListener("click", GoogleLogin);
 }
 
 /**
- * Register
+ * Check if it's the "home" page, add Listeners and update the groups/messages
+ */
+if(document.title == ("home")){
+    
+    UpdateGroups();//Fetch groups and display the group names
+
+    document.getElementById('sendMsg').addEventListener('click', SendMessage)// Add click event listener to the send button
+}
+
+/**
+ * Function to register
  */
 function Register(){
     var email = document.getElementById('register-email').value;
     var password = document.getElementById('register-password').value;
     var userName = document.getElementById('register-name').value;
+    var user;
 
     createUserWithEmailAndPassword(auth, email, password)
     .then((result)=>{
-        const user = result.user;
-        console.log(user);
+        user = result.user;
+        console.log("Registered")
     })
     .then(function () {
-        user = firebase.auth().currentUser;
         user.updateProfile({
             displayName: userName,
             photoURL: "https://lh3.googleusercontent.com/a/ACg8ocJahWUBU_uY34LBhei3N8-neSeQsYCFrZmi1hXMLQwOGOw=s96-c"
@@ -78,7 +111,7 @@ function Register(){
 }
 
 /**
- * Login
+ * Function to login with email and password
  */
 function Login(){
     var email = document.getElementById('login-email').value;
@@ -86,8 +119,8 @@ function Login(){
 
     signInWithEmailAndPassword(auth, email, password)
     .then((result)=>{
-        const user = result.user;
-        console.log(user);
+        var user = result.user;
+        console.log("Logged in")
         window.location.href = 'index.php?action=home';
     })
     .catch((error)=>{
@@ -98,7 +131,7 @@ function Login(){
 }
 
 /**
- * Google login
+ * Function to login with Google
  */
 function GoogleLogin(){
     signInWithPopup(auth, provider)
@@ -107,8 +140,8 @@ function GoogleLogin(){
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         // The signed-in user info.
-        const user = result.user;
-        console.log(user);        
+        var user = result.user;
+        console.log("Logged in with Google")
         window.location = 'index.php?action=home';
     })
     .catch((error) => {
@@ -136,13 +169,130 @@ document.getElementById("logout").addEventListener("click", function() {
     });
 });
 
-//check Auth state
-auth.onAuthStateChanged(function(user) {
-    if (user) {
-        logged = true;
-        console.log("user logged in", user);
-    } else {
-        logged = false
-        console.log("user logged out");
+/**
+ * Function to send a message to the current group
+ * @returns 
+ */
+function SendMessage() {
+    const messageInput = document.getElementById('message');
+    const messageText = messageInput.value.trim(); // Trim whitespace
+
+    if (messageText === '') {
+        // If the message is empty, do nothing
+        return;
     }
-});
+
+    const groupRef = doc(db, 'Groups', currentGroupID);
+    const messagesRef = collection(groupRef, 'Messages');
+
+    try {
+        addDoc(messagesRef, {
+            Text: messageText,
+            Auth: currentUser.email,
+            Timestamp: serverTimestamp()
+        });
+
+        console.log('Message sent successfully!');
+        // Clear the message input field after sending
+        messageInput.value = '';
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+}
+
+/**
+ * Fetch groups
+ */
+function UpdateGroups(){
+    // Fetch all groups from Firestore
+    getDocs(groupsRef)
+    .then(querySnapshot => {
+        const groups = [];
+        querySnapshot.forEach(doc => {
+            groups.push({ id: doc.id, ...doc.data() });
+        });
+        displayGroupNames(groups);
+    })
+    .catch(error => {
+        console.error('Error getting groups:', error);
+    });
+}
+
+/**
+ * Function to display group names
+ * @param {*} groups 
+ */
+function displayGroupNames(groups) {
+    const groupsListContainer = document.getElementById('groupsList');
+
+    groups.forEach(group => {
+        const groupNameElement = document.createElement('div');
+        groupNameElement.textContent = group.Name;
+        groupNameElement.classList.add('group-name');
+
+        // Add click event listener to load messages for the clicked group
+        groupNameElement.addEventListener('click', () => {
+            loadMessagesForGroup(group.id);
+            currentGroupID = group.id;
+        });
+
+        groupsListContainer.appendChild(groupNameElement);
+    });
+}
+
+/**
+ * Function to load messages for a specific group
+ * @param {*} groupId 
+ */
+function loadMessagesForGroup(groupId) {
+    const groupRef = collection(db, "Groups", groupId, "Messages");
+
+    getDocs(groupRef)
+    .then(querySnapshot => {
+        const messages = [];
+        querySnapshot.forEach(doc => {
+            messages.push(doc.data());
+        });
+        displayMessages(messages);
+    })
+    .catch(error => {
+        console.log('Error getting documents:', error);
+    });
+}
+
+/**
+ * Function to display messages
+ * @param {*} messages 
+ */
+function displayMessages(messages) {
+    const messagesContainer = document.getElementById('messagesList');
+    messagesContainer.innerHTML = ''; // Clear previous messages
+
+    messages.forEach(message => {
+        const messageElement1 = document.createElement('div');
+        messageElement1.classList.add('info');
+
+        const messageElement2 = document.createElement('div');
+        messageElement2.classList.add('message');
+
+        const messageAuth = document.createElement('div');
+        messageAuth.classList.add('messageAuth');
+        messageAuth.textContent = message.Auth;
+
+        const messageTimestamp = document.createElement('div');
+        messageTimestamp.classList.add('messageTimestamp');
+        messageTimestamp.textContent = new Date(message.Timestamp.toDate()).toLocaleString();
+
+        const messageText = document.createElement('div');
+        messageText.textContent = message.Text;
+
+        // Append message content to message element
+        messageElement1.appendChild(messageAuth);
+        messageElement1.appendChild(messageTimestamp);
+        messageElement2.appendChild(messageText);
+
+        // Append message element to messages container
+        messagesContainer.appendChild(messageElement1);
+        messagesContainer.appendChild(messageElement2);
+    });
+}

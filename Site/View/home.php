@@ -7,35 +7,26 @@
  */
 
 ob_start();
-$title = "Accueil";
+$title = "home";
 ?>
 <link rel="stylesheet" href="View/content/css/home.css"/>
 
-<div>
+<div class="container-wrapper">
     <div class="container" id="groups">
-        <ul class="groupsList">
-            <li>group name</li>
-            <li>group name</li>
-            <li>group name</li>
-            <li>group name</li>
-        </ul>
+        <div id="groupsList"></div>
     </div>
     <div class="container" id="discussion">
         <div id="messages">
             <h1 id="groupName"></h1>
-            <ul class="messagesList">
-                <li>msg</li>
-                <li>msg</li>
-                <li>msg</li>
-                <li>msg</li>
-            </ul>
+            <div id="messagesList"></div>
         </div>
-        <div id="">
+        <div id="send">
             <input type="text" placeholder="Enter message" name="message" id="message">
-            <a id="sendMsg" name="sendMsg">send</a>
+            <button id="sendMsg" name="sendMsg">send</button>
             <a id="addPhoto" name="addPhoto"><i class="fa-solid fa-plus"></i></a>
         </div>
     </div>
+    <button id="toggleGroups">Toggle Groups</button>
 </div>
 
 <?php

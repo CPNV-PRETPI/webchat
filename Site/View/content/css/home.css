@@ -1,7 +1,81 @@
-.container{
-    display: flexbox;
-    border: 1px;
-    border-color: black;
-    border-style: solid;
-    margin: 10px;
+.container-wrapper {
+    display: flex;
+}
+
+.container {
+    border: 1px solid #000000; /* Add a border*/
+}
+
+.messagesList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 10px;
+    padding: 10px 0;
+}
+
+.messageAuth {
+    color: rgb(50, 50, 90); /* Example color */
+}
+
+.messageTimestamp {
+    font-size: x-small;
+    color: gray; /* Example color */
+}
+
+#groupsList {
+    padding: 10px;
+}
+
+#messages {
+    padding: 10px;
+    border-bottom: 1px solid #000000;
+}
+
+#send {
+    padding: 10px;
+}
+
+#groups {
+    flex: 0 0 30%; /* Adjust the width as needed */
+    /*padding-right: 10px; /* Add some padding for spacing */
+}
+
+#discussion {
+    flex: 0 0 70%;
+    /*padding-left: 10px; /* Add some padding for spacing */
+}
+
+#messagesList {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide groups on small screens */
+@media screen and (max-width: 768px) {
+    #groups {
+        display: none;
+    }
+}
+
+/* Style for the toggle button */
+#toggleGroups {
+    display: none; /* Initially hide the button */
+    margin-top: 10px; /* Adjust as needed */
+}
+
+/* Show button on small screens */
+@media screen and (max-width: 768px) {
+    #toggleGroups {
+        display: block;
+    }
 }
