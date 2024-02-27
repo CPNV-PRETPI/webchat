@@ -28,6 +28,7 @@ const db = getFirestore(app);// Reference to the Firestore database
 const groupsRef = collection(db, "Groups");// Reference to the Firestore database collection "Groups"
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+
 var currentUser;
 var logged;
 var currentGroupID;
