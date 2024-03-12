@@ -7,25 +7,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const LostTemplate = document.getElementById('lostTemplate').content;
     const LostClone = LostTemplate.cloneNode(true);
 
-    function loginOrRegister() {
+
+    function LoginOrRegister() {
+        document.getElementById('menu').style.display = "none";
         document.getElementById('title').innerHTML = 'login or register';
-        // Clear the content
-        document.getElementById('content').innerHTML = '';
+        document.getElementById('content').innerHTML = ''; // Clear the content
         document.getElementById('content').appendChild(LoginOrRegisterClone);
     }
 
     function Home() {
-        document.getElementById('title').innerHTML = 'lost';
-        // Clear the content
-        document.getElementById('content').innerHTML = '';
+        document.getElementById('menu').style.display = "block";
+        document.getElementById('title').innerHTML = 'home';
+        document.getElementById('content').innerHTML = ''; // Clear the content
         document.getElementById('content').appendChild(HomeClone);
+        document.getElementById('loginOrRegister').style.display = "none";
     }
 
     function Lost() {
-        document.getElementById('title').innerHTML = 'home';
-        // Clear the content
-        document.getElementById('content').innerHTML = '';
+        document.getElementById('menu').style.display = "block";
+        document.getElementById('title').innerHTML = 'lost';
+        document.getElementById('content').innerHTML = ''; // Clear the content
         document.getElementById('content').appendChild(LostClone);
+    }
+
+    function Settings() {
+        document.getElementById('menu').style.display = "block";
+        document.getElementById('title').innerHTML = 'lost';
+        document.getElementById('content').innerHTML = ''; // Clear the content
+        document.getElementById('content').appendChild();
     }
 
     // Define the routing logic
@@ -38,13 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 Home();
                 break;
             case 'loginOrRegister':
-                loginOrRegister();
+                LoginOrRegister();
+                break;
+            case 'settings':
+                Settings();
                 break;
             default:
                 Lost();
                 break;
         }
     } else {
-        loginOrRegister();
+        Home();
     }
 });

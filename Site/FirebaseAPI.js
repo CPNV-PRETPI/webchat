@@ -48,7 +48,7 @@ auth.onAuthStateChanged(function(user) {
     //Check if it's the "home" page and redirect if not connected
     if(document.title == ("home")){
         if(!logged){
-            window.location = 'index.php?action=loginOrRegister';
+            //window.location = 'index.php?action=loginOrRegister';
         }
     }
 });
