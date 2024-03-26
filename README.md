@@ -31,6 +31,8 @@ How to get dependencies and build?
 How to run the tests?
 
 go to directory test then do the cmd :
+![image](https://github.com/CPNV-PRETPI/webchat/assets/106467708/2df43081-b8a8-496e-ba64-3c9c010acf5c)
+
 .....
 
 ### On integration environment
