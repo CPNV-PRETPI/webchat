@@ -30,6 +30,9 @@ How do you set the sensitive data?
 How to get dependencies and build?
 How to run the tests?
 
+go to directory test then do the cmd :
+.....
+
 ### On integration environment
 
 How to deploy the application outside the dev environment.
