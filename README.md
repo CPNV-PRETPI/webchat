@@ -51,6 +51,7 @@ How to run the tests?
 
 ![image](https://github.com/CPNV-PRETPI/webchat/assets/106467708/2df43081-b8a8-496e-ba64-3c9c010acf5c)
 - Une fois fini arreter l'emulator suite avec la commande ```npm run emulators:stop```
+
 ![image](https://github.com/CPNV-PRETPI/webchat/assets/106467708/b4516eaf-85a1-4358-8cb6-fd72ef5827ee)
 ![image](https://github.com/CPNV-PRETPI/webchat/assets/106467708/89f29b35-e5ed-4846-bcbd-95941e0d5a95)
 
