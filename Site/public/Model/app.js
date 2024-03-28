@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check Auth state and change "logged" value
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            localStorage.setItem('logged', true); // Store the value in local storage
+            localStorage.setItem('logged', "true"); // Store the value in local storage
             currentUser = user;
             console.log("user logged in", user);
         } else {
-            localStorage.setItem('logged', false); // Store the value in local storage
+            localStorage.setItem('logged', "false"); // Store the value in local storage
             currentUser = "";
             console.log("user logged out");
         }

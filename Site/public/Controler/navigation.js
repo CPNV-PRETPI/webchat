@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'home': // when the hash is 'home'
                     document.getElementById('dropdownMenu').style.display = "block"; //show dropdownMenu
                     break;
-                case 'settings': // when the hash is 'settings'
+                case 'profile': // when the hash is 'settings'
                     document.getElementById('dropdownMenu').style.display = "block"; //show dropdownMenu
                     break;
                 default:
