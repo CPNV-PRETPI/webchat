@@ -1,8 +1,9 @@
 .container-wrapper {
+    height: 100vh; /* Set height to 100% of viewport height */
+    width: 100vw; /* Set width to 100% of viewport width */
     display: flex;
-}
-
-.container {
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
     border: 1px solid #000000; /* Add a border*/
 }
 
@@ -21,12 +22,12 @@
 }
 
 .messageAuth {
-    color: rgb(50, 50, 90); /* Example color */
+    color: #403d5c;
 }
 
 .messageTimestamp {
     font-size: x-small;
-    color: gray; /* Example color */
+    color: #757575;
 }
 
 #groupsList {
@@ -34,36 +35,34 @@
 }
 
 #messages {
-    padding: 10px;
     border-bottom: 1px solid #000000;
 }
 
-#send {
-    padding: 10px;
-}
-
 #groups {
-    flex: 0 0 30%; /* Adjust the width as needed */
-    /*padding-right: 10px; /* Add some padding for spacing */
+    flex: 0 0 30%; /* Set the width of #groups to 30% */
+    height: 100%; /* Inherit the height from .container-wrapper */
+    border-right: 1px solid #000000; /* Add a border to the right */
 }
 
 #discussion {
-    flex: 0 0 70%;
-    /*padding-left: 10px; /* Add some padding for spacing */
+    flex: 0 0 70%; /* Set the width of #discussion to 70% */
+    height: 100%; /* Inherit the height from .container-wrapper */
 }
 
 #messagesList {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px #000000;
 }
 
 /* Hide groups on small screens */
 @media screen and (max-width: 768px) {
+    /* Hide groups on small screens */
     #groups {
         display: none;
+    }
+    /* Show button on small screens */
+    #toggleGroups {
+        display: block;
     }
 }
 
@@ -71,11 +70,4 @@
 #toggleGroups {
     display: none; /* Initially hide the button */
     margin-top: 10px; /* Adjust as needed */
-}
-
-/* Show button on small screens */
-@media screen and (max-width: 768px) {
-    #toggleGroups {
-        display: block;
-    }
 }

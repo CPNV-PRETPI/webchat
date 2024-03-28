@@ -1,7 +1,6 @@
 const db = firebase.firestore();// Initialize Cloud Firestore and get a reference to the service
 
 var currentUser;
-var logged = localStorage.getItem('logged') === 'true'; // Retrieve the value from local storage
 var currentGroupID;
 let currentGroupListener; // Store reference to the current group listener
 
@@ -19,57 +18,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Function to check if the user is logged in and handle redirection
-    function checkAuthAndRedirect() {
+    function checkHashAndUpdate(){
         var hash = window.location.hash.replace("#", "");
-        if (localStorage.getItem('logged') === "true") { // if the user is logged in
-            switch(hash) {
-                case 'loginOrRegister': // when the hash is 'loginOrRegister' redirect to the home page
-                    window.location = '#home';
-                    break;
-                case 'home': // when the hash is 'home' show the menu and update Groups list
-                    document.getElementById('dropdownMenu').style.display = "block";//show dropdownMenu
-                    UpdateGroups();//Fetch groups and display the group names
-                    break;
-                case 'settings': // when the hash is 'settings' show the menu and update Settings list
-                    document.getElementById('dropdownMenu').style.display = "block";//show dropdownMenu
-                    //UpdateSettings();//Fetch groups and display the group names
-                    break;
-                default:
-                    window.location = '#home';   
-                    break;
-            }
-        } else { // if there is no user logged in
-            switch(hash) {
-                case 'loginOrRegister': 
-                    document.getElementById('dropdownMenu').style.display = "none"; // hide dropdownMenu
-                    break;
-                default:
-                    window.location = '#loginOrRegister';    
-                    break;
-            }
+        switch(hash){
+            case "home":
+                UpdateGroups();//Fetch groups and display the group names
+                break;
+            case "profile":
+                updateProfileSettings();//Fetch profile settings property and display them
+                break;
         }
-    };
+    }
 
-    document.addEventListener('hashchange', checkAuthAndRedirect());
+    window.addEventListener('hashchange', checkHashAndUpdate());
 
     /**
-     * Check all click event and add Listeners
+     * Add listener to all click event and call the correct function by checking the target id
      */
     document.addEventListener('click', function(event) {
-        if (event.target && event.target.id === 'register_btn') {
-            Register();
-        } else if (event.target && event.target.id === 'login_btn') {
-            Login();
-        } else if (event.target && event.target.id === 'google_login_btn') {
-            GoogleLogin();
-        } else if (event.target && event.target.id === 'sendMsg') {
-            SendMessage();
-        } else if (event.target && event.target.id === 'logout') {
-            Logout();
+        // Check if the clicked element has an id
+        if (event.target && event.target.id) {
+            const targetId = event.target.id;
+            switch (targetId) {
+                case 'register_btn':
+                    Register();
+                    break;
+                case 'login_btn':
+                    Login();
+                    break;
+                case 'google_login_btn':
+                    GoogleLogin();
+                    break;
+                case 'sendMsg':
+                    SendMessage();
+                    break;
+                case 'logout':
+                    Logout();
+                    break;
+                default:
+                    // If the clicked element is not one of the specific buttons, check for dropdown menu buttons
+                    if (targetId === 'menuButton') {
+                        // Toggle dropdown menu
+                        toggleDropdownMenu(event.target);
+                    } else {
+                        // Close all dropdown menus when clicking outside
+                        document.querySelectorAll('.dropdownMenu').forEach(menu => {
+                            if (!menu.contains(event.target)) {
+                                menu.style.display = 'none';
+                            }
+                        });
+                    }
+                    break;
+            }
         }
     });
 
+    // Add event listener to the input field for sending message when "Enter" key is pressed
+    document.addEventListener("keydown", function(event) {
+        if (event.target) {
+            switch (event.target.id) {
+                case 'messageInput':
+                    if (event.key === "Enter") { SendMessage(); }
+                    break;
+            }
+        }
+    });
 
     /**
      * Function to logout
@@ -94,27 +107,22 @@ document.addEventListener('DOMContentLoaded', function() {
         var email = document.getElementById('register-email').value;
         var password = document.getElementById('register-password').value;
         var userName = document.getElementById('register-name').value;
-        var user;
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((result) => {
-                user = result.user;
-                console.log("Registered")
-            })
-            .then(function () {
+                var user = result.user;
                 user.updateProfile({
                     displayName: userName,
                     photoURL: "https://lh3.googleusercontent.com/a/ACg8ocJahWUBU_uY34LBhei3N8-neSeQsYCFrZmi1hXMLQwOGOw=s96-c"
                 })
                 .then(function () {
                     // Update successful.
-                    window.location = '#';
+                    window.location = '#home';
                 })
                 .catch((error) => {// An error happened.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.log(errorCode, errorMessage);
+                    console.log(error);
                 })
+                console.log("Registered")
             })
             .catch((error) => {// An error happened.
                 const errorCode = error.code;
@@ -134,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then((result) => {
                 var user = result.user;
                 console.log("Logged in")
-                window.location.href = '#';
+                window.location.href = '#home';
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -151,22 +159,20 @@ document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().signInWithPopup(provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const credential = result.credential;
                 const token = credential.accessToken;
                 // The signed-in user info.
-                var user = result.user;
                 console.log("Logged in with Google")
-                window.location = '#';
+                window.location = '#home';
             })
             .catch((error) => {
                 // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage);
+                var errorCode = error.code;
+                var errorMessage = error.message;
                 // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
             })
     }
     
@@ -176,16 +182,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function UpdateGroups() {
         // Fetch all groups from Firestore
         db.collection("Groups").get()
-        .then((querySnapshot) => {
-            const groups = [];
-            querySnapshot.forEach(doc => {
-                groups.push({ id: doc.id, ...doc.data() });
+            .then((querySnapshot) => {
+                const groups = [];
+                querySnapshot.forEach(doc => {
+                    groups.push({ id: doc.id, ...doc.data() });
+                });
+                displayGroupNames(groups);
+            })
+            .catch(error => {
+                console.error('Error getting groups:', error);
             });
-            displayGroupNames(groups);
-        })
-        .catch(error => {
-            console.error('Error getting groups:', error);
-        });
     }
 
     /**
@@ -234,16 +240,16 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function loadMessagesForGroup(groupId) {
         db.collection("Groups", ).doc(groupId).collection("Messages").orderBy("Timestamp", "asc").get()
-        .then(querySnapshot => {
-            const messages = [];
-            querySnapshot.forEach(doc => {
-                messages.push(doc.data());
+            .then(querySnapshot => {
+                const messages = [];
+                querySnapshot.forEach(doc => {
+                    messages.push(doc.data());
+                });
+                displayMessages(messages);
+            })
+            .catch(error => {
+                console.log('Error getting documents:', error);
             });
-            displayMessages(messages);
-        })
-        .catch(error => {
-            console.log('Error getting documents:', error);
-        });
     }
 
     /**
@@ -271,11 +277,50 @@ document.addEventListener('DOMContentLoaded', function() {
     
             const messageText = document.createElement('div');
             messageText.textContent = message.Text;
+
+            if (message.Auth === currentUser.email) { // Check if the author of the message is the current user
+                // Create a button with three dots as a menu trigger
+                const menuButton = document.createElement('button');
+                menuButton.classList.add('menuButton');
+                menuButton.innerHTML = '&#x22EE;'; // Unicode character for three dots (ellipsis)
+                menuButton.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Prevent click event from bubbling to message element
+                    toggleDropdownMenu(menuButton); // Toggle dropdown menu
+                });
     
-            // Append message content to message element
-            messageElement1.appendChild(messageAuth);
-            messageElement1.appendChild(messageTimestamp);
-            messageElement2.appendChild(messageText);
+                // Create a dropdown menu
+                const dropdownMenu = document.createElement('div');
+                dropdownMenu.classList.add('dropdownMenu');
+                dropdownMenu.innerHTML = `
+                    <button class="dropdownItem">Delete</button>
+                    <button class="dropdownItem">Modify</button>
+                    <button class="dropdownItem">Respond</button>
+                `;
+                dropdownMenu.style.display = 'none'; // Hide dropdown menu by default
+    
+                // Append message content to message element
+                messageElement1.appendChild(messageAuth);
+                messageElement1.appendChild(messageTimestamp);
+                messageElement1.appendChild(menuButton); // Append the menu button to the message element
+                messageElement1.appendChild(dropdownMenu); // Append the dropdown menu to the message element
+                
+                messageElement2.appendChild(messageText);
+
+                // Add event listeners for showing/hiding menu button on hover
+                messageElement1.addEventListener('mouseenter', function() {
+                    menuButton.style.visibility = 'visible';
+                });
+                messageElement1.addEventListener('mouseleave', function() {
+                    menuButton.style.visibility = 'hidden';
+                    dropdownMenu.style.display = 'none'; // Hide dropdown menu when mouse leaves the message
+                });
+            } else {
+                // If the author of the message is not the current user, display the message without the menu button
+                // Append message content to message element
+                messageElement1.appendChild(messageAuth);
+                messageElement1.appendChild(messageTimestamp);
+                messageElement2.appendChild(messageText);
+            }
     
             // Append message element to messages container
             messagesContainer.appendChild(messageElement1);
@@ -283,12 +328,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Function to toggle dropdown menu visibility
+    function toggleDropdownMenu(menuButton) {
+        const dropdownMenu = menuButton.nextElementSibling; // Get the next sibling, which is the dropdown menu
+        if (dropdownMenu.style.display === 'block') {
+            dropdownMenu.style.display = 'none'; // Hide the dropdown menu if it's currently visible
+        } else {
+            // Hide all other dropdown menus first
+            document.querySelectorAll('.dropdownMenu').forEach(menu => {
+                if (menu !== dropdownMenu) {
+                    menu.style.display = 'none';
+                }
+            });
+            dropdownMenu.style.display = 'block'; // Show the dropdown menu
+        }
+    }
+
     /**
      * Function to send a message to the current group
      * @returns 
      */
     function SendMessage() {
-        const messageInput = document.getElementById('message');
+        const messageInput = document.getElementById('messageInput');
         const messageText = messageInput.value.trim(); // Trim whitespace
 
         if (messageText === '') {
@@ -301,13 +362,31 @@ document.addEventListener('DOMContentLoaded', function() {
             Auth: currentUser.email,
             Timestamp: firebase.firestore.Timestamp.now()
         })
-        .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
-            // Clear the message input field after sending
-            messageInput.value = '';
-        })
-        .catch((error) => {
-            console.error("Error adding document: ", error);
-        })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+                // Clear the message input field after sending
+                messageInput.value = '';
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            })
+    }
+
+    /**
+     * 
+     */
+    function updateProfileSettings(){
+        // Fetch the current user profile from Firestore
+        /*db.collection("Profiles").doc("").get()
+            .then((querySnapshot) => {
+                const groups = [];
+                querySnapshot.forEach(doc => {
+                    groups.push({ id: doc.id, ...doc.data() });
+                });
+                displayProfile();
+            })
+            .catch(error => {
+                console.error('Error getting profile:', error);
+            });*/
     }
 });
